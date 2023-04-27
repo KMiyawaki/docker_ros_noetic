@@ -1,0 +1,18 @@
+version: '3'
+services:
+  ros_noetic:
+    container_name: ros_noetic
+    image: ros:noetic
+    environment:
+      - DISPLAY=:0.0
+      - TZ=Asia/Tokyo
+    network_mode: "host"
+    privileged: true
+    tty: true
+    volumes:
+      - type: bind
+        source: "/dev"
+        target: "/dev"
+      - type: bind
+        source: "${HOME}/catkin_ws"
+        target: "/root/catkin_ws"
