@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -w /root -it ros_noetic /bin/bash
+docker exec -w ${HOME} -it ros1_noetic /bin/bash

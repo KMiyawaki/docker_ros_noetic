@@ -1,18 +1,19 @@
 version: '3'
 services:
   ros_noetic:
-    container_name: ros_noetic
-    image: ros:noetic
+    container_name: ros1_noetic
+    image: kmiyawaki20/ros1_noetic
     environment:
       - DISPLAY=:0.0
       - TZ=Asia/Tokyo
     network_mode: "host"
     privileged: true
     tty: true
+    user: ${UID}:${GID}
+    working_dir: ${HOME}
     volumes:
-      - type: bind
-        source: "/dev"
-        target: "/dev"
-      - type: bind
-        source: "${HOME}/catkin_ws"
-        target: "/root/catkin_ws"
+      - ${HOME}/catkin_ws:${HOME}/catkin_ws
+      - ${HOME}/${SETUP_SCRIPTS}:${HOME}/${SETUP_SCRIPTS}
+      - /dev:/dev
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro

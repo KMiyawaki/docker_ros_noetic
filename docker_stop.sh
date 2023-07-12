@@ -1,6 +1,6 @@
 #!/bin/bash
 function main(){
-    docker stop ros_noetic
+    docker stop ros1_noetic
 }
 
 main "$@"
