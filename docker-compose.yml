@@ -1,8 +1,8 @@
 version: '3'
 services:
   ros_noetic:
-    container_name: ros1_noetic
-    image: kmiyawaki20/ros1_noetic_user_${USER}
+    container_name: ${CONTAINER}
+    image: ${IMAGE_NAME}
     environment:
       - DISPLAY=:0.0
       - TZ=Asia/Tokyo

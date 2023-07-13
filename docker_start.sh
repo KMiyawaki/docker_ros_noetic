@@ -1,16 +1,48 @@
 #!/bin/bash
 function main(){
-    local -r WS="${HOME}/catkin_ws"
-    if [ ! -e ${WS} ]; then
-        mkdir -p ${WS}/src
-        echo "Making ${WS}/src"
-    fi
+    local -r CONTAINER="ros1_noetic"
+    local -r BASE_IMAGE="kmiyawaki20/${CONTAINER}"
+    local -r IMAGE_NAME="${BASE_IMAGE}_user_${USER}"
+    local -r DOCKER_FILE="Dockerfile.useradd1"
     local -r GROUP=`id -gn`
-    local SUB_GROUPS=`groups|sed "s/${GROUP}//g"|sed "s/^ *\| *$//g"|sed "s/ /,/g"`
+    local -r GID=`id -g`
+    local -r SUB_GROUPS=`groups|sed "s/${GROUP}//g"|sed "s/^ *\| *$//g"|sed "s/ /,/g"`
+    local -r WS="${HOME}/catkin_ws"
+    local -r WS_SRC="${WS}/src"
+    
+    if [ ! -e "${WS}" ]; then
+        mkdir -p "${WS_SRC}"
+        echo "Making ${WS_SRC}"
+    fi
 
-    echo "USER=${USER}" > .env
+    docker images|grep -q ${IMAGE_NAME}
+    if [ $? -eq 1 ]; then
+        echo "${IMAGE_NAME} does not exists. "
+        echo -n "Input password for user '${USER}' >"
+        read PASSWORD
+        echo -n "'${PASSWORD}' Is that a correct password ?(Y/N)"
+        read YN
+        if [[ "${YN^^}" == "*N*" ]]; then
+            exit 1
+        fi
+        readonly PASSWORD
+        echo "OK. Start to build image."
+        docker build --progress=plain -t "${IMAGE_NAME}" -f "${DOCKER_FILE}" \
+            --build-arg BASE="${BASE_IMAGE}" \
+            --build-arg USER_NAME="${USER}" \
+            --build-arg GROUP_NAME="${GROUP}" \
+            --build-arg UID="${UID}" \
+            --build-arg GID="${GID}" \
+            --build-arg PASSWORD="${PASSWORD}" .
+    else
+        echo "${IMAGE_NAME} exists. Executing docker-compose up."
+    fi
+    
+    echo "CONTAINER=${CONTAINER}" > .env
+    echo "IMAGE_NAME=${IMAGE_NAME}" >> .env
+    echo "USER=${USER}" >> .env
     echo "UID=${UID}" >> .env
-    echo "GID=`id -g`" >> .env
+    echo "GID=${GID}" >> .env
     echo "HOME=${HOME}" >> .env
     docker-compose up -d
 }
