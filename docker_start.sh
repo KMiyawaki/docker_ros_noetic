@@ -3,7 +3,7 @@ function main(){
     local -r CONTAINER="ros1_noetic"
     local -r BASE_IMAGE="kmiyawaki20/${CONTAINER}"
     local -r IMAGE_NAME="${BASE_IMAGE}_user_${USER}"
-    local -r DOCKER_FILE="Dockerfile.useradd1"
+    local -r DOCKER_FILE="Dockerfile.useradd"
     local -r GROUP=`id -gn`
     local -r GID=`id -g`
     local -r SUB_GROUPS=`groups|sed "s/${GROUP}//g"|sed "s/^ *\| *$//g"|sed "s/ /,/g"`
@@ -18,22 +18,13 @@ function main(){
     docker images|grep -q ${IMAGE_NAME}
     if [ $? -eq 1 ]; then
         echo "${IMAGE_NAME} does not exists. "
-        echo -n "Input password for user '${USER}' >"
-        read PASSWORD
-        echo -n "'${PASSWORD}' Is that a correct password ?(Y/N)"
-        read YN
-        if [[ "${YN^^}" == "*N*" ]]; then
-            exit 1
-        fi
-        readonly PASSWORD
         echo "OK. Start to build image."
         docker build --progress=plain -t "${IMAGE_NAME}" -f "${DOCKER_FILE}" \
             --build-arg BASE="${BASE_IMAGE}" \
             --build-arg USER_NAME="${USER}" \
             --build-arg GROUP_NAME="${GROUP}" \
-            --build-arg UID="${UID}" \
-            --build-arg GID="${GID}" \
-            --build-arg PASSWORD="${PASSWORD}" .
+            --build-arg USER_ID="${UID}" \
+            --build-arg GROUP_ID="${GID}" .
     else
         echo "${IMAGE_NAME} exists. Executing docker-compose up."
     fi

@@ -1,0 +1,18 @@
+ARG BASE
+
+FROM $BASE
+LABEL maintainer="K.Miyawaki<5770105+KMiyawaki@users.noreply.github.com>"
+
+ARG USER_NAME
+ARG GROUP_NAME
+ARG USER_ID
+ARG GROUP_ID
+
+COPY setup /setup 
+
+RUN cd /setup && chmod 777 ./user_add.sh  \
+    && ./user_add.sh ${USER_NAME} ${GROUP_NAME} ${USER_ID} ${GROUP_ID} 
+
+RUN rm -fr /setup
+
+WORKDIR /home/${USER_NAME}
