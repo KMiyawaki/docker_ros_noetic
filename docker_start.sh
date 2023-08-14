@@ -24,7 +24,8 @@ function main(){
             --build-arg USER_NAME="${USER}" \
             --build-arg GROUP_NAME="${GROUP}" \
             --build-arg USER_ID="${UID}" \
-            --build-arg GROUP_ID="${GID}" .
+            --build-arg GROUP_ID="${GID}" \
+            --build-arg ROS_VER="ros1" .
     else
         echo "${IMAGE_NAME} exists. Executing docker-compose up."
     fi
