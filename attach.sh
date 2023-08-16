@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function main(){
+    cd "$(dirname "$0")"
     local -r CONTAINER=ros1_noetic
     docker ps|grep -q ${CONTAINER}
     if [ $? -eq 1 ]; then
