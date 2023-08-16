@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=ros1 noetic
+Comment=open ros1 noetic
+Exec=gnome-terminal --profile=docker_ros_noetic
+Icon=docker_ros_noetic
+Terminal=true
