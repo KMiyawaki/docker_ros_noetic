@@ -2,9 +2,9 @@
 
 function main(){
     local -r SCRIPT=$(basename $0)
-    local -r MIN_ARG=4
+    local -r MIN_ARG=5
     if [ $# -lt "${MIN_ARG}" ]; then
-        echo "usage: ${SCRIPT} USER_NAME GROUP_NAME USER_ID GROUP_ID" 1>&2
+        echo "usage: ${SCRIPT} USER_NAME GROUP_NAME USER_ID GROUP_ID ROS_VER" 1>&2
         return 0
     fi
     local -r USER_NAME=${1}
@@ -21,7 +21,7 @@ function main(){
     echo "${USER_NAME}   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
     
     cd /home/${USER_NAME}
-    sudo -u ${USER_NAME} git clone -b develop https://github.com/KMiyawaki/setup_robot_programming.git
+    sudo -u ${USER_NAME} git clone https://github.com/KMiyawaki/setup_robot_programming.git
     cd /home/${USER_NAME}/setup_robot_programming
     sudo -u ${USER_NAME} ./setup_emacs.sh
     sudo -u ${USER_NAME} ./install_vscode_extension_from_file.sh ms-iot vscode-ros 0.9.4
