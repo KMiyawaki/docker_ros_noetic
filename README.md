@@ -18,6 +18,18 @@ git clone https://github.com/KMiyawaki/docker_ros_noetic
 
 このコマンドを実行したターミナル内は`Docker`により`Ubuntu20+ROS1 noetic`が利用可能となっている。
 
+`attach.sh`の初回起動時のみ以下のコマンドを`Docker`コンテナ内で実行する。
+
+```shell
+~/setup_robot_programming/ros1/init_workspace.sh -p
+```
+
+`Docker`コンテナから以下のコマンドでホストに戻る。
+
+```shell
+exit
+```
+
 ## ショートカットを置いて簡単に使う方法
 
 以下は`Ubuntu22`での説明となる。
