@@ -19,7 +19,8 @@ function main(){
     if [ $? -eq 1 ]; then
         echo "${IMAGE_NAME} does not exists. "
         echo "OK. Start to build image."
-        docker build --progress=plain -t "${IMAGE_NAME}" -f "${DOCKER_FILE}" \
+        # --progress=plain does not work for Jetson
+        docker build -t "${IMAGE_NAME}" -f "${DOCKER_FILE}" \
             --build-arg BASE="${BASE_IMAGE}" \
             --build-arg USER_NAME="${USER}" \
             --build-arg GROUP_NAME="${GROUP}" \
