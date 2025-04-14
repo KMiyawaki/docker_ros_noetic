@@ -1,8 +1,9 @@
 #!/bin/bash
 function main(){
-    local -r CONTAINER="ros1_noetic"
-    local -r BASE_IMAGE="kmiyawaki20/${CONTAINER}"
+    local -r BASE="ros1_noetic"
+    local -r BASE_IMAGE="kmiyawaki20/${BASE}"
     local -r IMAGE_NAME="${BASE_IMAGE}_user_${USER}"
+    local -r CONTAINER_NAME="${BASE}_user_${USER}"
     local -r DOCKER_FILE="Dockerfile.useradd"
     local -r GROUP=`id -gn`
     local -r GID=`id -g`
@@ -31,7 +32,7 @@ function main(){
         echo "${IMAGE_NAME} exists. Executing docker-compose up."
     fi
     
-    echo "CONTAINER=${CONTAINER}" > .env
+    echo "CONTAINER=${CONTAINER_NAME}" > .env
     echo "IMAGE_NAME=${IMAGE_NAME}" >> .env
     echo "USER=${USER}" >> .env
     echo "UID=${UID}" >> .env

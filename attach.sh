@@ -2,7 +2,7 @@
 
 function main(){
     cd "$(dirname "$0")"
-    local -r CONTAINER=ros1_noetic
+    local -r CONTAINER=ros1_noetic_user_${USER}
     docker ps|grep -q ${CONTAINER}
     if [ $? -eq 1 ]; then
         echo "${CONTAINER} is not running. Try to start."
