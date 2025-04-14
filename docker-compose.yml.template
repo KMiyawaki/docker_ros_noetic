@@ -1,6 +1,6 @@
 version: '3'
 services:
-  ros_noetic:
+  <SERVICE>:
     container_name: ${CONTAINER}
     image: ${IMAGE_NAME}
     environment:

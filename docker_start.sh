@@ -38,6 +38,8 @@ function main(){
     echo "UID=${UID}" >> .env
     echo "GID=${GID}" >> .env
     echo "HOME=${HOME}" >> .env
+    cp ./docker-compose.yml.template ./docker-compose.yml
+    sed -i -e "s/<SERVICE>/${CONTAINER_NAME}/" ./docker-compose.yml
     docker-compose up -d
 }
 
